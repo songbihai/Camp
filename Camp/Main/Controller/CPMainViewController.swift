@@ -91,8 +91,11 @@ class CPMainViewController: CPBaseViewController {
                 if tempGirls.count < 20 {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
+                let count = self.girls.count
                 self.girls.appendContentsOf(tempGirls)
-                self.tableView.reloadData()
+                self.tableView.beginUpdates()
+                self.tableView.insertSections(NSIndexSet.init(indexesInRange: NSMakeRange(count, tempGirls.count)), withRowAnimation: .Bottom)
+                self.tableView.endUpdates()
                 },
                        onError: { (error) in
                         if page == 1 {
@@ -142,12 +145,6 @@ extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! CPMainTableViewCell
-//        cell.girlImageView.alpha = 0.5
-//        cell.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI_4), 1, 0, 0)
-//        UIView.animateWithDuration(0.5) {
-//            cell.girlImageView.alpha = 1.0
-//            cell.layer.transform = CATransform3DIdentity
-//        }
         return cell
     }
     
@@ -167,12 +164,12 @@ extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let images = girls.map { (model) -> SKPhoto in
+        let photos = girls.map { (model) -> SKPhoto in
             let photo = SKPhoto.photoWithImageURL(model.url)
             photo.shouldCachePhotoURLImage = true
             return photo
         }
-        let browser = SKPhotoBrowser(photos: images)
+        let browser = SKPhotoBrowser(photos: photos)
         browser.initializePageIndex(indexPath.section)
         presentViewController(browser, animated: true, completion: {})
     }
