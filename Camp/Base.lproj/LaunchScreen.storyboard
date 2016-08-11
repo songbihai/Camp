@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="©Songbihai" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ac-t9-2yT">
+                                <rect key="frame" x="247" y="462.5" width="106" height="27.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="lQ5-GF-hKU">
+                                <rect key="frame" x="0.0" y="140" width="600" height="225"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Ck0-No-51Q"/>
+                                    <constraint firstAttribute="width" constant="320" id="LVh-Pf-0CF"/>
+                                    <constraint firstAttribute="width" secondItem="lQ5-GF-hKU" secondAttribute="height" multiplier="8:3" id="eY3-O2-ENq"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ck0-No-51Q"/>
+                                        <exclude reference="LVh-Pf-0CF"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14117647058823529" green="0.18823529411764706" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="1Ac-t9-2yT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="95U-Pi-Ira"/>
+                            <constraint firstItem="lQ5-GF-hKU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="9pO-HP-dY4"/>
+                            <constraint firstItem="lQ5-GF-hKU" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="120" id="WFf-iB-Ozn"/>
+                            <constraint firstItem="lQ5-GF-hKU" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="dxA-Z5-onM"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="1Ac-t9-2yT" secondAttribute="bottom" constant="110" id="jMp-jB-Sxl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LaunchScreen" width="810" height="310"/>
+    </resources>
+</document>

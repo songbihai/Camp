@@ -1,0 +1,43 @@
+PODS:
+  - AFDateHelper (3.4.2)
+  - Alamofire (3.4.1)
+  - FLEX (2.3.0)
+  - Kingfisher (2.4.2)
+  - MJRefresh (3.1.12)
+  - PKHUD (3.2.1)
+  - RxSwift (2.6.0)
+  - SKPhotoBrowser (2.0.2)
+  - SnapKit (0.30.0.beta2)
+  - SwiftyJSON (2.3.2)
+  - XLPagerTabStrip (5.0.0)
+  - ZYCornerRadius (1.0.1)
+
+DEPENDENCIES:
+  - AFDateHelper (~> 3.4.2)
+  - Alamofire (~> 3.4.1)
+  - FLEX (~> 2.0)
+  - Kingfisher (~> 2.4.2)
+  - MJRefresh (~> 3.1.12)
+  - PKHUD (~> 3.2.1)
+  - RxSwift (~> 2.6.0)
+  - SKPhotoBrowser
+  - SnapKit (~> 0.30.0.beta2)
+  - SwiftyJSON (~> 2.3.2)
+  - XLPagerTabStrip (~> 5.0.0)
+  - ZYCornerRadius (~> 1.0.1)
+
+SPEC CHECKSUMS:
+  AFDateHelper: aecee6bb264d6531795649f4ebac47783d2bab74
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
+  Kingfisher: 05bf8d04408aaa70fcd2c8c81b9f1d0f1ad313dd
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
+  RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
+  SKPhotoBrowser: a23a4125deca7451d298248c7eafc8332fb909df
+  SnapKit: c4bb32b1d3c5d18ff63bf95ffcbc599d2bab964c
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
+  ZYCornerRadius: 94720e8722acf30de5b73ae185ffe56a2240f6a3
+
+COCOAPODS: 0.39.0
