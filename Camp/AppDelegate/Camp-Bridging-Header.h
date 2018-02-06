@@ -5,5 +5,4 @@
 // 要编译才能识别类型
 
 #import "MJRefresh/MJRefresh.h"
-#import "ZYCornerRadius/UIImageView+CornerRadius.h"
 

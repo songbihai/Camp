@@ -13,7 +13,6 @@ target 'Camp' do
 	pod 'XLPagerTabStrip'
 	pod 'PKHUD'
 	pod 'MJRefresh'
-	pod 'ZYCornerRadius'
 	pod 'SKPhotoBrowser'
 end
 

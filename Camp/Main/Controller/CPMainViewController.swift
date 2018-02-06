@@ -168,6 +168,14 @@ extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
         return 1.0
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let photos = girls.map { (model) -> SKPhoto in
             let photo = SKPhoto.photoWithImageURL(model.url)

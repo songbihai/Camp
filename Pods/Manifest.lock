@@ -9,7 +9,6 @@ PODS:
   - SnapKit (4.0.0)
   - SwiftyJSON (4.0.0)
   - XLPagerTabStrip (8.0.0)
-  - ZYCornerRadius (1.0.2)
 
 DEPENDENCIES:
   - AFDateHelper
@@ -22,7 +21,6 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
   - SwiftyJSON
   - XLPagerTabStrip
-  - ZYCornerRadius
 
 SPEC CHECKSUMS:
   AFDateHelper: 4ad66fb19503041fbba8a3018cb7ef9c71b2ff88
@@ -35,8 +33,7 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
-  ZYCornerRadius: f0af817be7805b5c63d793042ca7a03f81e14069
 
-PODFILE CHECKSUM: 2b40b56ffc2672fda3143ce049c947c5f369ab7a
+PODFILE CHECKSUM: 6d65c648d066547a28f167dfdfe79661bfc78d47
 
 COCOAPODS: 1.2.0.beta.1

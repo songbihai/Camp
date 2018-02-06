@@ -24,7 +24,7 @@ class CPMainTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = CPColorUtil.mainColor
+        contentView.backgroundColor = CPColorUtil.mainColor
         selectionStyle = .none
         addAllSubviews()
     }
@@ -38,9 +38,8 @@ class CPMainTableViewCell: UITableViewCell {
         girlImageView.image = UIImage(named: "placeholder")
         girlImageView.contentMode = .scaleAspectFill
         girlImageView.clipsToBounds = true
-        girlImageView.isUserInteractionEnabled = true
-        let corner = UIRectCorner.topLeft.rawValue | UIRectCorner.topRight.rawValue
-        girlImageView.zy_cornerRadiusAdvance(10.0, rectCornerType: UIRectCorner(rawValue: corner))
+        girlImageView.layer.cornerRadius = 10.0;
+        girlImageView.layer.shouldRasterize = true
         contentView.addSubview(girlImageView)
         girlImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(contentView).inset(UIEdgeInsets.zero)
@@ -85,14 +84,14 @@ class CPMainTableViewCell: UITableViewCell {
     func girlGetData(data: GirlModel) {
         if let url = URL(string: data.url) {
             let resource = ImageResource.init(downloadURL: url, cacheKey: data.url)
-            girlImageView.kf.setImage(with: resource)
+            girlImageView.kf.setImage(with: resource, placeholder: UIImage(named: "placeholder"), options: nil, progressBlock: nil, completionHandler: nil)
         }
         whoLabel.text = data.who
         let date = CPDateUtil.stringToDate(dateStr: data.createdAt)
         createdAtLabel.text = CPDateUtil.dateToString(date: date!, dateFormat: "yyyy年MM月dd日") 
         descLabel.text = data.desc 
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
