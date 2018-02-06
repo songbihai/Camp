@@ -46,7 +46,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
         tableView.separatorStyle = .none
         tableView.backgroundColor = CPColorUtil.navColor
         tableView.showsVerticalScrollIndicator = false
-        tableView.estimatedRowHeight = 30.0
+        tableView.estimatedRowHeight = 44.0
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -174,7 +174,7 @@ extension CPCategoryController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30.0
+        return 44.0
     }
 }
 
