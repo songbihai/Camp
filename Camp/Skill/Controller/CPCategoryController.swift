@@ -47,6 +47,11 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
         tableView.backgroundColor = CPColorUtil.navColor
         tableView.showsVerticalScrollIndicator = false
         tableView.estimatedRowHeight = 30.0
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
