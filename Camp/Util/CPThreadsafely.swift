@@ -9,15 +9,15 @@
 
 import Foundation
 
-func dispatch_async_safely_to_main_queue(block: ()->()) {
-    dispatch_async_safely_to_queue(dispatch_get_main_queue(), block)
+func dispatch_async_safely_to_main_queue(block: @escaping ()->()) {
+    dispatch_async_safely_to_queue(queue: DispatchQueue.main, block)
 }
 
-func dispatch_async_safely_to_queue(queue: dispatch_queue_t, _ block: ()->()) {
-    if queue === dispatch_get_main_queue() && NSThread.isMainThread() {
+func dispatch_async_safely_to_queue(queue: DispatchQueue, _ block: @escaping ()->()) {
+    if queue === DispatchQueue.main && Thread.isMainThread {
         block()
     } else {
-        dispatch_async(queue) {
+        queue.async() {
             block()
         }
     }

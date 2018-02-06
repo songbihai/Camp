@@ -28,20 +28,20 @@
 #endif
 
 
-internal enum ConstraintRelation: Int {
-    case Equal = 1
-    case LessThanOrEqual
-    case GreaterThanOrEqual
+internal enum ConstraintRelation : Int {
+    case equal = 1
+    case lessThanOrEqual
+    case greaterThanOrEqual
     
-    internal var layoutRelation: NSLayoutRelation {
+    internal var layoutRelation: LayoutRelation {
         get {
             switch(self) {
-            case .Equal:
-                return .Equal
-            case .LessThanOrEqual:
-                return .LessThanOrEqual
-            case .GreaterThanOrEqual:
-                return .GreaterThanOrEqual
+            case .equal:
+                return .equal
+            case .lessThanOrEqual:
+                return .lessThanOrEqual
+            case .greaterThanOrEqual:
+                return .greaterThanOrEqual
             }
         }
     }

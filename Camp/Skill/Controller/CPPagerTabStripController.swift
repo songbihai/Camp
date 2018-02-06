@@ -15,13 +15,13 @@ class CPPagerTabStripController: ButtonBarPagerTabStripViewController {
         
         settings.style.buttonBarBackgroundColor = CPColorUtil.mainColor
         settings.style.buttonBarItemBackgroundColor = CPColorUtil.mainColor
-        settings.style.selectedBarBackgroundColor = .orangeColor()
+        settings.style.selectedBarBackgroundColor = .orange
         settings.style.selectedBarHeight = 2.0
         
         changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             guard changeCurrentIndex == true else { return }
-            oldCell?.label.textColor = .whiteColor()
-            newCell?.label.textColor = .orangeColor()
+            oldCell?.label.textColor = .white
+            newCell?.label.textColor = .orange
         }
         
         super.viewDidLoad()
@@ -29,9 +29,9 @@ class CPPagerTabStripController: ButtonBarPagerTabStripViewController {
         title = "Skills"
         
         let aboutme = UIButton()
-        aboutme.frame = CGRectMake(0, 0, 60, 25)
-        aboutme.addTarget(self, action: #selector(toAboutmeAction(_:)), forControlEvents: .TouchUpInside)
-        aboutme.setTitle("about", forState: .Normal)
+        aboutme.frame = CGRect(x: 0, y: 0, width: 60, height: 25)
+        aboutme.addTarget(self, action: #selector(toAboutmeAction), for: .touchUpInside)
+        aboutme.setTitle("about", for: .normal)
         let rightBarBtn = UIBarButtonItem.init(customView: aboutme)
         navigationItem.rightBarButtonItem = rightBarBtn
         
@@ -40,11 +40,11 @@ class CPPagerTabStripController: ButtonBarPagerTabStripViewController {
         buttonBarView.frame = newButtonBarViewFrame
     }
     
-    func toAboutmeAction(sender: UIButton) {
+    @objc func toAboutmeAction(sender: UIButton) {
         navigationController!.pushViewController(CPAboutController(), animated: true)
     }
     
-    override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let titles = ["Android", "iOS", "休息视频", "福利", "拓展资源", "前端", "瞎推荐", "App"]
         let VCs = titles.map { (title) -> CPCategoryController in
             let vc = CPCategoryController(itemInfo: IndicatorInfo(title: title))

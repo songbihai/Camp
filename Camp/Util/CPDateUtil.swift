@@ -10,19 +10,16 @@ import UIKit
 import AFDateHelper
 
 class CPDateUtil {
-    static let calendar = NSCalendar.currentCalendar()
-    static let dateFormatter = NSDateFormatter()
+    static let calendar = NSCalendar.current
+    static let dateFormatter = DateFormatter()
     
-    static func stringToDate(dateStr:String)->NSDate{
-        return NSDate(fromString:  dateStr, format: .ISO8601(ISO8601Format.DateTimeMilliSec))
+    static func stringToDate(dateStr:String)->Date?{
+        return Date(fromString: dateStr, format: .isoDateTimeMilliSec)
     }
     
-    static func dateToString(date:NSDate,dateFormat:String)->String{
+    static func dateToString(date: Date,dateFormat:String)->String{
         dateFormatter.dateFormat = dateFormat
-        return dateFormatter.stringFromDate(date)
+        return dateFormatter.string(from: date)
     }
-    
-    static func componentsFromDate(date:NSDate)->NSDateComponents{
-        return calendar.components([NSCalendarUnit.Day, NSCalendarUnit.Month, NSCalendarUnit.Year], fromDate: date)
-    }
+
 }

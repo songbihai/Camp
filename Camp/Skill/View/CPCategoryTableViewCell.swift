@@ -17,7 +17,7 @@ class CPCategoryTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = CPColorUtil.mainColor
-        selectionStyle = .None
+        selectionStyle = .none
         addAllSubviews()
     }
     
@@ -27,7 +27,7 @@ class CPCategoryTableViewCell: UITableViewCell {
     
     func addAllSubviews() {
         descLabel = UILabel()
-        descLabel.textColor = UIColor.whiteColor()
+        descLabel.textColor = UIColor.white
         contentView.addSubview(descLabel)
         descLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(contentView)
@@ -37,7 +37,7 @@ class CPCategoryTableViewCell: UITableViewCell {
         
         logLabel = UILabel()
         logLabel.text = "»"
-        logLabel.textColor = UIColor.whiteColor()
+        logLabel.textColor = UIColor.white
         contentView.addSubview(logLabel)
         logLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(descLabel)
@@ -46,7 +46,7 @@ class CPCategoryTableViewCell: UITableViewCell {
     }
     
     func getCategoryData(data: CategoryModel) {
-        descLabel.text = data.desc ?? ""
+        descLabel.text = data.desc
     }
     
     override func awakeFromNib() {
@@ -54,7 +54,7 @@ class CPCategoryTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

@@ -10,13 +10,17 @@ import UIKit
 
 class CPBaseUINavigationController: UINavigationController {
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let navBar = UINavigationBar.appearance()
         navBar.barTintColor = CPColorUtil.navColor
-        navBar.tintColor = UIColor.whiteColor()
-        navBar.barStyle = .BlackTranslucent
-        navBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        navBar.tintColor = UIColor.white
+        navBar.barStyle = .blackTranslucent
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         // Do any additional setup after loading the view.
     }
 
@@ -24,9 +28,6 @@ class CPBaseUINavigationController: UINavigationController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
-    }
+
 
 }

@@ -9,8 +9,8 @@
 import UIKit
 
 @objc protocol SKDetectingImageViewDelegate {
-    func handleImageViewSingleTap(touchPoint: CGPoint)
-    func handleImageViewDoubleTap(touchPoint: CGPoint)
+    func handleImageViewSingleTap(_ touchPoint: CGPoint)
+    func handleImageViewDoubleTap(_ touchPoint: CGPoint)
 }
 
 class SKDetectingImageView: UIImageView {
@@ -18,27 +18,33 @@ class SKDetectingImageView: UIImageView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        userInteractionEnabled = true
+        setup()
+    }
+    
+    @objc func handleDoubleTap(_ recognizer: UITapGestureRecognizer) {
+        delegate?.handleImageViewDoubleTap(recognizer.location(in: self))
+    }
+    
+    @objc func handleSingleTap(_ recognizer: UITapGestureRecognizer) {
+        delegate?.handleImageViewSingleTap(recognizer.location(in: self))
+    }
+}
+
+private extension SKDetectingImageView {
+    func setup() {
+        isUserInteractionEnabled = true
+        
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
-        doubleTap.numberOfTouchesRequired = 1
-        self.addGestureRecognizer(doubleTap)
+        addGestureRecognizer(doubleTap)
+        
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
-        singleTap.numberOfTapsRequired = 1
-        singleTap.numberOfTouchesRequired = 1
-        singleTap.requireGestureRecognizerToFail(doubleTap)
-        self.addGestureRecognizer(singleTap)
-    }
-    
-    func handleDoubleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewDoubleTap(recognizer.locationInView(self))
-    }
-    
-    func handleSingleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewSingleTap(recognizer.locationInView(self))
+        singleTap.require(toFail: doubleTap)
+        addGestureRecognizer(singleTap)
     }
 }

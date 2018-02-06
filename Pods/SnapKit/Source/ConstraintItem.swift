@@ -28,7 +28,7 @@
 #endif
 
 
-public class ConstraintItem: Equatable {
+public final class ConstraintItem {
     
     internal weak var target: AnyObject?
     internal let attributes: ConstraintAttributes
@@ -38,12 +38,8 @@ public class ConstraintItem: Equatable {
         self.attributes = attributes
     }
     
-    internal var view: ConstraintView? {
-        return self.target as? ConstraintView
-    }
-    
-    internal var layoutSupport: ConstraintLayoutSupport? {
-        return self.target as? ConstraintLayoutSupport
+    internal var layoutConstraintItem: LayoutConstraintItem? {
+        return self.target as? LayoutConstraintItem
     }
     
 }
@@ -56,8 +52,8 @@ public func ==(lhs: ConstraintItem, rhs: ConstraintItem) -> Bool {
     
     // must both have valid targets and identical attributes
     guard let target1 = lhs.target,
-          let target2 = rhs.target
-          where target1 === target2 && lhs.attributes == rhs.attributes else {
+          let target2 = rhs.target,
+          target1 === target2 && lhs.attributes == rhs.attributes else {
             return false
     }
     

@@ -8,16 +8,14 @@
 
 import UIKit.UIImage
 
+public protocol SKCacheable {}
 public protocol SKImageCacheable: SKCacheable {
-    func imageForKey(key: String) -> UIImage?
-    func setImage(image: UIImage, forKey key: String)
-    func removeImageForKey(key: String)
+    func imageForKey(_ key: String) -> UIImage?
+    func setImage(_ image: UIImage, forKey key: String)
+    func removeImageForKey(_ key: String)
 }
 
 public protocol SKRequestResponseCacheable: SKCacheable {
-    func cachedResponseForRequest(request: NSURLRequest) -> NSCachedURLResponse?
-    func storeCachedResponse(cachedResponse: NSCachedURLResponse, forRequest request: NSURLRequest)
-}
-
-public protocol SKCacheable {
+    func cachedResponseForRequest(_ request: URLRequest) -> CachedURLResponse?
+    func storeCachedResponse(_ cachedResponse: CachedURLResponse, forRequest request: URLRequest)
 }

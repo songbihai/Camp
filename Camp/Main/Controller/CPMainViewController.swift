@@ -30,9 +30,9 @@ class CPMainViewController: CPBaseViewController {
     }
     
     func addAllSubViews () {
-        tableView = UITableView.init(frame: view.bounds, style: .Grouped)
-        tableView.registerClass(CPMainTableViewCell.self, forCellReuseIdentifier: identifier)
-        tableView.separatorStyle = .None
+        tableView = UITableView.init(frame: view.bounds, style: .grouped)
+        tableView.register(CPMainTableViewCell.self, forCellReuseIdentifier: identifier)
+        tableView.separatorStyle = .none
         tableView.backgroundColor = CPColorUtil.mainColor
         tableView.showsVerticalScrollIndicator = false
         tableView.estimatedRowHeight = 300.0
@@ -41,42 +41,39 @@ class CPMainViewController: CPBaseViewController {
         view.addSubview(tableView)
         
         let toCategoryBtn = UIButton()
-        toCategoryBtn.frame = CGRectMake(0, 0, 25, 25)
-        toCategoryBtn.setBackgroundImage(UIImage.init(named: "xie"), forState: .Normal)
-        toCategoryBtn.addTarget(self, action: #selector(toCategoryAction(_:)), forControlEvents: .TouchUpInside)
-        
+        toCategoryBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        toCategoryBtn.setImage(UIImage(named: "xie"), for: .normal)
+        toCategoryBtn.addTarget(self, action: #selector(toCategoryAction), for: .touchUpInside)
+
         let rightBarBtn = UIBarButtonItem.init(customView: toCategoryBtn)
         navigationItem.rightBarButtonItem = rightBarBtn
     }
     
-    func toCategoryAction(sender: UIButton) {
+    @objc func toCategoryAction(sender: UIButton) {
         let pageVC = CPPagerTabStripController()
         navigationController!.pushViewController(pageVC, animated: true)
     }
     
     func initMJRefresh(){
         let MJHeader = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToRefresh))
-        MJHeader.lastUpdatedTimeLabel!.hidden = true
+        MJHeader?.lastUpdatedTimeLabel?.isHidden = true
         tableView.mj_header = MJHeader
         tableView.mj_header.beginRefreshing()
         
         tableView.mj_footer = MJRefreshBackNormalFooter(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToLoadMore))
     }
     
-    func pullToRefresh() {
+    @objc func pullToRefresh() {
         page = 1
-        loadGirls(page)
+        loadGirls(page: page)
     }
     
-    func pullToLoadMore() {
-        loadGirls(page)
+    @objc func pullToLoadMore() {
+        loadGirls(page: page)
     }
     
     func loadGirls(page: Int) {
-        if page == 1 {
-            girls.removeAll()
-        }
-        let _ = CPHTTP.shareInstance.rx_fetchData(.Girl(page))
+        let _ = CPHTTP.shareInstance.rx_fetchData(type: .girl(page))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (json) in
                 if page == 1 {
@@ -84,7 +81,6 @@ class CPMainViewController: CPBaseViewController {
                 }else {
                     self.tableView.mj_footer.endRefreshing()
                 }
-                self.page += 1
                 let tempGirls = json["results"].arrayValue.map({ (dict) -> GirlModel in
                     return GirlModel(dict)
                 })
@@ -92,10 +88,17 @@ class CPMainViewController: CPBaseViewController {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
                 let count = self.girls.count
-                self.girls.appendContentsOf(tempGirls)
-                self.tableView.beginUpdates()
-                self.tableView.insertSections(NSIndexSet.init(indexesInRange: NSMakeRange(count, tempGirls.count)), withRowAnimation: .Bottom)
-                self.tableView.endUpdates()
+                if page == 1 {
+                    self.girls.removeAll()
+                    self.girls.append(contentsOf: tempGirls)
+                    self.tableView.reloadData()
+                }else {
+                    self.girls.append(contentsOf: tempGirls)
+                    self.tableView.beginUpdates()
+                    self.tableView.insertSections(NSIndexSet.init(indexesIn: NSMakeRange(count, tempGirls.count)) as IndexSet, with: .bottom)
+                    self.tableView.endUpdates()
+                }
+                self.page += 1
                 },
                        onError: { (error) in
                         if page == 1 {
@@ -105,7 +108,7 @@ class CPMainViewController: CPBaseViewController {
                         }
                         switch error as! RequestError {
                         case .NetWrong(let localizedDescription):
-                            CPHUD.showText(localizedDescription)
+                            CPHUD.showText(text: localizedDescription)
                         }
                 },
                        onCompleted: {
@@ -135,35 +138,37 @@ class CPMainViewController: CPBaseViewController {
 extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
     var identifier: String { return "CPMainTableViewCell" } //不能添加储存属性
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return girls.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! CPMainTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! CPMainTableViewCell
         return cell
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let girl = girls[indexPath.section]
-        let cel = cell as! CPMainTableViewCell
-        cel.girlGetData(girl)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section < girls.count {
+            let girl = girls[indexPath.section]
+            let cel = cell as! CPMainTableViewCell
+            cel.girlGetData(data: girl)
+        }
     }
     
     //MARK: - UITableViewDelegate
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 9.0
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 1.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let photos = girls.map { (model) -> SKPhoto in
             let photo = SKPhoto.photoWithImageURL(model.url)
             photo.shouldCachePhotoURLImage = true
@@ -171,10 +176,10 @@ extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
         }
         let browser = SKPhotoBrowser(photos: photos)
         browser.initializePageIndex(indexPath.section)
-        presentViewController(browser, animated: true, completion: {})
+        present(browser, animated: true, completion: {})
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300.0
     }
 }

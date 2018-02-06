@@ -13,7 +13,6 @@ class CPBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = CPColorUtil.mainColor
-        
     }
 
     override func didReceiveMemoryWarning() {

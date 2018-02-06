@@ -14,6 +14,7 @@ import RxSwift
 
 class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     
+    
     var categorys: [CategoryModel] = []
     
     var itemInfo: IndicatorInfo = "View"
@@ -39,9 +40,10 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     }
     
     func addAllSubviews() {
-        tableView = UITableView.init(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 110), style: .Grouped)
-        tableView.registerClass(CPCategoryTableViewCell.self, forCellReuseIdentifier: identifier)
-        tableView.separatorStyle = .None
+        
+        tableView = UITableView(frame: CGRect(x: 0, y: 44, width: self.view.bounds.size.width, height: self.view.bounds.size.height - 108), style: .grouped)
+        tableView.register(CPCategoryTableViewCell.self, forCellReuseIdentifier: identifier)
+        tableView.separatorStyle = .none
         tableView.backgroundColor = CPColorUtil.navColor
         tableView.showsVerticalScrollIndicator = false
         tableView.estimatedRowHeight = 30.0
@@ -52,28 +54,28 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     
     func initMJRefresh(){
         let MJHeader = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToRefresh))
-        MJHeader.lastUpdatedTimeLabel!.hidden = true
+        MJHeader?.lastUpdatedTimeLabel!.isHidden = true
         tableView.mj_header = MJHeader
         tableView.mj_header.beginRefreshing()
         
         tableView.mj_footer = MJRefreshBackNormalFooter(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToLoadMore))
     }
     
-    func pullToRefresh() {
+    @objc func pullToRefresh() {
         page = 1
-        loadCategorys(itemInfo.title, page: page)
+        loadCategorys(category: itemInfo.title!, page: page)
     }
     
-    func pullToLoadMore() {
-        loadCategorys(itemInfo.title, page: page)
+    @objc func pullToLoadMore() {
+        loadCategorys(category: itemInfo.title!, page: page)
     }
     
     func loadCategorys(category: String, page: Int) {
         if page == 1 {
             categorys.removeAll()
         }
-        let _ = CPHTTP.shareInstance.rx_fetchData(.Category(category, page))
-            .observeOn(MainScheduler.instance)
+        let _ = CPHTTP.shareInstance.rx_fetchData(type: .category(category, page))
+             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (json) in
                 if page == 1 {
                     self.tableView.mj_header.endRefreshing()
@@ -84,7 +86,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
                 let tempCategorys = json["results"].arrayValue.map({ (dict) -> CategoryModel in
                     return CategoryModel(dict)
                 })
-                self.categorys.appendContentsOf(tempCategorys)
+                self.categorys.append(contentsOf: tempCategorys)
                 if tempCategorys.count < 20 {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
@@ -98,7 +100,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
                         }
                         switch error as! RequestError {
                         case .NetWrong(let localizedDescription):
-                            CPHUD.showText(localizedDescription)
+                            CPHUD.showText(text: localizedDescription)
                         }
                 }, onCompleted: {
                     if page == 1 {
@@ -119,7 +121,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
         super.didReceiveMemoryWarning()
     }
     
-    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         return itemInfo
     }
 
@@ -128,37 +130,45 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
 extension CPCategoryController: UITableViewDataSource, UITableViewDelegate {
     var identifier: String { return "CPSkillTableViewCell" }
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return categorys.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! CPCategoryTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath as IndexPath) as! CPCategoryTableViewCell
         let category = categorys[indexPath.section]
-        cell.getCategoryData(category)
+        cell.getCategoryData(data: category)
         return cell
     }
     
     //MARK: - UITableViewDelegate
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1.0
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 1.0
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 1.0
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let url = categorys[indexPath.section].url
-        let SFSafari = SFSafariViewController(URL: NSURL(string:url)!, entersReaderIfAvailable: true)
-        self.presentViewController(SFSafari, animated: true, completion: nil)
+        let SFSafari = SFSafariViewController(url: URL(string: url)!)
+        self.present(SFSafari, animated: true, completion: nil)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30.0
     }
 }

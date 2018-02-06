@@ -30,46 +30,26 @@
 
 public class ConstraintMakerEditable: ConstraintMakerPriortizable {
 
-    public func multipliedBy(amount: ConstraintMultiplierTarget) -> ConstraintMakerEditable {
+    @discardableResult
+    public func multipliedBy(_ amount: ConstraintMultiplierTarget) -> ConstraintMakerEditable {
         self.description.multiplier = amount
         return self
     }
     
-    public func dividedBy(amount: ConstraintMultiplierTarget) -> ConstraintMakerEditable {
+    @discardableResult
+    public func dividedBy(_ amount: ConstraintMultiplierTarget) -> ConstraintMakerEditable {
         return self.multipliedBy(1.0 / amount.constraintMultiplierTargetValue)
     }
     
-    public func offset(amount: ConstraintOffsetTarget) -> ConstraintMakerEditable {
-        self.description.constant = amount
+    @discardableResult
+    public func offset(_ amount: ConstraintOffsetTarget) -> ConstraintMakerEditable {
+        self.description.constant = amount.constraintOffsetTargetValue
         return self
     }
     
-    public func inset(amount: ConstraintInsetTarget) -> ConstraintMakerEditable {
-        let insets: ConstraintInsets
-        
-        if let amount = amount as? ConstraintInsets {
-            insets = amount
-        } else if let amount = amount as? Float {
-            insets = ConstraintInsets(top: CGFloat(amount), left: CGFloat(amount), bottom: CGFloat(amount), right: CGFloat(amount))
-        } else if let amount = amount as? Double {
-            insets = ConstraintInsets(top: CGFloat(amount), left: CGFloat(amount), bottom: CGFloat(amount), right: CGFloat(amount))
-        } else if let amount = amount as? CGFloat {
-            insets = ConstraintInsets(top: amount, left: amount, bottom: amount, right: amount)
-        } else if let amount = amount as? Int {
-            insets = ConstraintInsets(top: CGFloat(amount), left: CGFloat(amount), bottom: CGFloat(amount), right: CGFloat(amount))
-        } else if let amount = amount as? UInt {
-            insets = ConstraintInsets(top: CGFloat(amount), left: CGFloat(amount), bottom: CGFloat(amount), right: CGFloat(amount))
-        } else {
-            insets = ConstraintInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-        
-        self.description.constant = ConstraintInsets(top: insets.top, left: insets.left, bottom: -insets.bottom, right: -insets.right)
-        
-        return self
-    }
-    
-    public func labeled(label: String) -> ConstraintMakerEditable {
-        self.description.label = label
+    @discardableResult
+    public func inset(_ amount: ConstraintInsetTarget) -> ConstraintMakerEditable {
+        self.description.constant = amount.constraintInsetTargetValue
         return self
     }
     

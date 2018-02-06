@@ -42,7 +42,11 @@ extension ConstraintInsets: ConstraintConstantTarget {
 
 extension ConstraintConstantTarget {
     
-    internal func layoutConstantForLayoutAttribute(layoutAttribute: NSLayoutAttribute) -> CGFloat {
+    internal func constraintConstantTargetValueFor(layoutAttribute: LayoutAttribute) -> CGFloat {
+        if let value = self as? CGFloat {
+            return value
+        }
+        
         if let value = self as? Float {
             return CGFloat(value)
         }
@@ -59,38 +63,33 @@ extension ConstraintConstantTarget {
             return CGFloat(value)
         }
         
-        if let value = self as? CGFloat {
-            return value
-        }
-        
         if let value = self as? CGSize {
-            if layoutAttribute == .Width {
+            if layoutAttribute == .width {
                 return value.width
-            } else if layoutAttribute == .Height {
+            } else if layoutAttribute == .height {
                 return value.height
             } else {
                 return 0.0
             }
         }
         
-        
         if let value = self as? CGPoint {
             #if os(iOS) || os(tvOS)
                 switch layoutAttribute {
-                case .Left, .Right, .Leading, .Trailing, .CenterX, .LeftMargin, .RightMargin, .LeadingMargin, .TrailingMargin, .CenterXWithinMargins:
+                case .left, .right, .leading, .trailing, .centerX, .leftMargin, .rightMargin, .leadingMargin, .trailingMargin, .centerXWithinMargins:
                     return value.x
-                case .Top, .Bottom, .CenterY, .TopMargin, .BottomMargin, .CenterYWithinMargins, .LastBaseline, .FirstBaseline:
+                case .top, .bottom, .centerY, .topMargin, .bottomMargin, .centerYWithinMargins, .lastBaseline, .firstBaseline:
                     return value.y
-                case .Width, .Height, .NotAnAttribute:
+                case .width, .height, .notAnAttribute:
                     return 0.0
                 }
             #else
                 switch layoutAttribute {
-                case .Left, .Right, .Leading, .Trailing, .CenterX:
+                case .left, .right, .leading, .trailing, .centerX:
                     return value.x
-                case .Top, .Bottom, .CenterY, .LastBaseline, .FirstBaseline:
+                case .top, .bottom, .centerY, .lastBaseline, .firstBaseline:
                     return value.y
-                case .Width, .Height, .NotAnAttribute:
+                case .width, .height, .notAnAttribute:
                     return 0.0
                 }
             #endif
@@ -99,44 +98,44 @@ extension ConstraintConstantTarget {
         if let value = self as? ConstraintInsets {
             #if os(iOS) || os(tvOS)
                 switch layoutAttribute {
-                case .Left, .LeftMargin, .CenterX, .CenterXWithinMargins:
+                case .left, .leftMargin, .centerX, .centerXWithinMargins:
                     return value.left
-                case .Top, .TopMargin, .CenterY, .CenterYWithinMargins, .LastBaseline, .FirstBaseline:
+                case .top, .topMargin, .centerY, .centerYWithinMargins, .lastBaseline, .firstBaseline:
                     return value.top
-                case .Right, .RightMargin:
-                    return value.right
-                case .Bottom, .BottomMargin:
-                    return value.bottom
-                case .Leading, .LeadingMargin:
-                    return (ConstraintConfig.interfaceLayoutDirection == .LeftToRight) ? value.left : -value.right
-                case .Trailing, .TrailingMargin:
-                    return (ConstraintConfig.interfaceLayoutDirection == .LeftToRight) ? value.right : -value.left
-                case .Width:
-                    return -value.left + value.right
-                case .Height:
-                    return -value.top + value.bottom
-                case .NotAnAttribute:
+                case .right, .rightMargin:
+                    return -value.right
+                case .bottom, .bottomMargin:
+                    return -value.bottom
+                case .leading, .leadingMargin:
+                    return (ConstraintConfig.interfaceLayoutDirection == .leftToRight) ? value.left : value.right
+                case .trailing, .trailingMargin:
+                    return (ConstraintConfig.interfaceLayoutDirection == .leftToRight) ? -value.right : -value.left
+                case .width:
+                    return -(value.left + value.right)
+                case .height:
+                    return -(value.top + value.bottom)
+                case .notAnAttribute:
                     return 0.0
                 }
             #else
                 switch layoutAttribute {
-                case .Left, .CenterX:
+                case .left, .centerX:
                     return value.left
-                case .Top, .CenterY, .LastBaseline, .FirstBaseline:
+                case .top, .centerY, .lastBaseline, .firstBaseline:
                     return value.top
-                case .Right:
-                    return value.right
-                case .Bottom:
-                    return value.bottom
-                case .Leading:
-                    return (ConstraintConfig.interfaceLayoutDirection == .LeftToRight) ? value.left : -value.right
-                case .Trailing:
-                    return (ConstraintConfig.interfaceLayoutDirection == .LeftToRight) ? value.right : -value.left
-                case .Width:
-                    return -value.left + value.right
-                case .Height:
-                    return -value.top + value.bottom
-                case .NotAnAttribute:
+                case .right:
+                    return -value.right
+                case .bottom:
+                    return -value.bottom
+                case .leading:
+                    return (ConstraintConfig.interfaceLayoutDirection == .leftToRight) ? value.left : value.right
+                case .trailing:
+                    return (ConstraintConfig.interfaceLayoutDirection == .leftToRight) ? -value.right : -value.left
+                case .width:
+                    return -(value.left + value.right)
+                case .height:
+                    return -(value.top + value.bottom)
+                case .notAnAttribute:
                     return 0.0
                 }
             #endif

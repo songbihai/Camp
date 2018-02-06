@@ -34,18 +34,21 @@ public extension LayoutConstraint {
         
         description += descriptionForObject(self)
         
-        description += " \(descriptionForObject(self.firstItem))"
-        if self.firstAttribute != .NotAnAttribute {
+        if let firstItem = conditionalOptional(from: self.firstItem) {
+            description += " \(descriptionForObject(firstItem))"
+        }
+        
+        if self.firstAttribute != .notAnAttribute {
             description += ".\(descriptionForAttribute(self.firstAttribute))"
         }
         
         description += " \(descriptionForRelation(self.relation))"
         
-        if let secondItem: AnyObject = self.secondItem {
+        if let secondItem = self.secondItem {
             description += " \(descriptionForObject(secondItem))"
         }
         
-        if self.secondAttribute != .NotAnAttribute {
+        if self.secondAttribute != .notAnAttribute {
             description += ".\(descriptionForAttribute(self.secondAttribute))"
         }
         
@@ -53,17 +56,17 @@ public extension LayoutConstraint {
             description += " * \(self.multiplier)"
         }
         
-        if self.secondAttribute == .NotAnAttribute {
+        if self.secondAttribute == .notAnAttribute {
             description += " \(self.constant)"
         } else {
             if self.constant > 0.0 {
                 description += " + \(self.constant)"
             } else if self.constant < 0.0 {
-                description += " - \(CGFloat.abs(self.constant))"
+                description += " - \(abs(self.constant))"
             }
         }
         
-        if self.priority != 1000.0 {
+        if self.priority.rawValue != 1000.0 {
             description += " ^\(self.priority)"
         }
         
@@ -74,66 +77,74 @@ public extension LayoutConstraint {
     
 }
 
-private func descriptionForRelation(relation: NSLayoutRelation) -> String {
+private func descriptionForRelation(_ relation: LayoutRelation) -> String {
     switch relation {
-    case .Equal:                return "=="
-    case .GreaterThanOrEqual:   return ">="
-    case .LessThanOrEqual:      return "<="
+    case .equal:                return "=="
+    case .greaterThanOrEqual:   return ">="
+    case .lessThanOrEqual:      return "<="
     }
 }
 
-private func descriptionForAttribute(attribute: NSLayoutAttribute) -> String {
+private func descriptionForAttribute(_ attribute: LayoutAttribute) -> String {
     #if os(iOS) || os(tvOS)
         switch attribute {
-        case .NotAnAttribute:       return "notAnAttribute"
-        case .Top:                  return "top"
-        case .Left:                 return "left"
-        case .Bottom:               return "bottom"
-        case .Right:                return "right"
-        case .Leading:              return "leading"
-        case .Trailing:             return "trailing"
-        case .Width:                return "width"
-        case .Height:               return "height"
-        case .CenterX:              return "centerX"
-        case .CenterY:              return "centerY"
-        case .LastBaseline:         return "lastBaseline"
-        case .FirstBaseline:        return "firstBaseline"
-        case .TopMargin:            return "topMargin"
-        case .LeftMargin:           return "leftMargin"
-        case .BottomMargin:         return "bottomMargin"
-        case .RightMargin:          return "rightMargin"
-        case .LeadingMargin:        return "leadingMargin"
-        case .TrailingMargin:       return "trailingMargin"
-        case .CenterXWithinMargins: return "centerXWithinMargins"
-        case .CenterYWithinMargins: return "centerYWithinMargins"
+        case .notAnAttribute:       return "notAnAttribute"
+        case .top:                  return "top"
+        case .left:                 return "left"
+        case .bottom:               return "bottom"
+        case .right:                return "right"
+        case .leading:              return "leading"
+        case .trailing:             return "trailing"
+        case .width:                return "width"
+        case .height:               return "height"
+        case .centerX:              return "centerX"
+        case .centerY:              return "centerY"
+        case .lastBaseline:         return "lastBaseline"
+        case .firstBaseline:        return "firstBaseline"
+        case .topMargin:            return "topMargin"
+        case .leftMargin:           return "leftMargin"
+        case .bottomMargin:         return "bottomMargin"
+        case .rightMargin:          return "rightMargin"
+        case .leadingMargin:        return "leadingMargin"
+        case .trailingMargin:       return "trailingMargin"
+        case .centerXWithinMargins: return "centerXWithinMargins"
+        case .centerYWithinMargins: return "centerYWithinMargins"
         }
     #else
         switch attribute {
-        case .NotAnAttribute:       return "notAnAttribute"
-        case .Top:                  return "top"
-        case .Left:                 return "left"
-        case .Bottom:               return "bottom"
-        case .Right:                return "right"
-        case .Leading:              return "leading"
-        case .Trailing:             return "trailing"
-        case .Width:                return "width"
-        case .Height:               return "height"
-        case .CenterX:              return "centerX"
-        case .CenterY:              return "centerY"
-        case .LastBaseline:         return "lastBaseline"
-        default:                    return "default"
+        case .notAnAttribute:       return "notAnAttribute"
+        case .top:                  return "top"
+        case .left:                 return "left"
+        case .bottom:               return "bottom"
+        case .right:                return "right"
+        case .leading:              return "leading"
+        case .trailing:             return "trailing"
+        case .width:                return "width"
+        case .height:               return "height"
+        case .centerX:              return "centerX"
+        case .centerY:              return "centerY"
+        case .lastBaseline:         return "lastBaseline"
+        case .firstBaseline:        return "firstBaseline"
         }
     #endif
 }
 
-private func descriptionForObject(object: AnyObject) -> String {
-    let pointerDescription = NSString(format: "%p", ObjectIdentifier(object).uintValue)
+private func conditionalOptional<T>(from object: Optional<T>) -> Optional<T> {
+    return object
+}
+
+private func conditionalOptional<T>(from object: T) -> Optional<T> {
+    return Optional.some(object)
+}
+
+private func descriptionForObject(_ object: AnyObject) -> String {
+    let pointerDescription = String(format: "%p", UInt(bitPattern: ObjectIdentifier(object)))
     var desc = ""
     
-    desc += object.dynamicType.description()
+    desc += type(of: object).description()
     
     if let object = object as? ConstraintView {
-        desc += ":\(object.snp.label ?? pointerDescription)"
+        desc += ":\(object.snp.label() ?? pointerDescription)"
     } else if let object = object as? LayoutConstraint {
         desc += ":\(object.label ?? pointerDescription)"
     } else {

@@ -31,10 +31,6 @@
 public protocol ConstraintRelatableTarget {
 }
 
-public enum ConstraintRelatableTargetShortcut: ConstraintRelatableTarget {
-    case Superview
-}
-
 extension Int: ConstraintRelatableTarget {
 }
 
@@ -63,4 +59,8 @@ extension ConstraintItem: ConstraintRelatableTarget {
 }
 
 extension ConstraintView: ConstraintRelatableTarget {
+}
+
+@available(iOS 9.0, OSX 10.11, *)
+extension ConstraintLayoutGuide: ConstraintRelatableTarget {
 }

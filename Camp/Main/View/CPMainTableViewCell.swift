@@ -25,7 +25,7 @@ class CPMainTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = CPColorUtil.mainColor
-        selectionStyle = .None
+        selectionStyle = .none
         addAllSubviews()
     }
     
@@ -35,28 +35,30 @@ class CPMainTableViewCell: UITableViewCell {
     
     func addAllSubviews() {
         girlImageView = UIImageView()
-        girlImageView.contentMode = .ScaleToFill
-        girlImageView.userInteractionEnabled = true
-        let corner = UIRectCorner.TopLeft.rawValue | UIRectCorner.TopRight.rawValue
+        girlImageView.image = UIImage(named: "placeholder")
+        girlImageView.contentMode = .scaleAspectFill
+        girlImageView.clipsToBounds = true
+        girlImageView.isUserInteractionEnabled = true
+        let corner = UIRectCorner.topLeft.rawValue | UIRectCorner.topRight.rawValue
         girlImageView.zy_cornerRadiusAdvance(10.0, rectCornerType: UIRectCorner(rawValue: corner))
         contentView.addSubview(girlImageView)
         girlImageView.snp.makeConstraints { (make) in
-            make.edges.equalTo(contentView).inset(UIEdgeInsetsZero)
+            make.edges.equalTo(contentView).inset(UIEdgeInsets.zero)
         }
         
         maskBottonView = UIView()
-        maskBottonView.backgroundColor = CPColorUtil.mainColor.colorWithAlphaComponent(0.3)
+        maskBottonView.backgroundColor = CPColorUtil.mainColor.withAlphaComponent(0.3)
         contentView.addSubview(maskBottonView)
         maskBottonView.snp.makeConstraints { (make) in
             make.left.right.equalTo(contentView)
             make.height.equalTo(50.0)
-            make.bottom.equalTo(contentView)
+            make.bottom.equalTo(contentView.snp.bottom)
         }
         
         func createdLabel() -> UILabel {
             let label = UILabel()
-            label.textColor = UIColor.whiteColor()
-            label.font = UIFont.systemFontOfSize(15.0)
+            label.textColor = UIColor.white
+            label.font = UIFont.systemFont(ofSize: 15.0)
             maskBottonView.addSubview(label)
             return label
         }
@@ -81,18 +83,21 @@ class CPMainTableViewCell: UITableViewCell {
     }
     
     func girlGetData(data: GirlModel) {
-        girlImageView.kf_setImageWithURL(NSURL.init(string: data.url), placeholderImage: UIImage.init(named: "placeholder"))
-        whoLabel.text = data.who ?? ""
-        let date = CPDateUtil.stringToDate(data.createdAt)
-        createdAtLabel.text = CPDateUtil.dateToString(date, dateFormat: "yyyy年mm月dd日") ?? ""
-        descLabel.text = data.desc ?? ""
+        if let url = URL(string: data.url) {
+            let resource = ImageResource.init(downloadURL: url, cacheKey: data.url)
+            girlImageView.kf.setImage(with: resource)
+        }
+        whoLabel.text = data.who
+        let date = CPDateUtil.stringToDate(dateStr: data.createdAt)
+        createdAtLabel.text = CPDateUtil.dateToString(date: date!, dateFormat: "yyyy年MM月dd日") 
+        descLabel.text = data.desc 
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

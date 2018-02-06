@@ -12,7 +12,7 @@ import PKHUD
 public final class CPHUD {
     public static func showText(text: String) {
         HUD.dimsBackground = true
-        HUD.show(.Label(text))
+        HUD.show(.label(text))
         HUD.hide(afterDelay: 2.0)
     }
 }

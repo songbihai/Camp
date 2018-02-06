@@ -13,12 +13,14 @@ import SwiftyJSON
 
 
 enum FetchDataType {
-    case Girl(Int)
-    case Skill(Int, Int, Int)
-    case Category(String, Int)
+    case girl(Int)
+    case skill(Int, Int, Int)
+    case category(String, Int)
 }
 
-enum RequestError: ErrorType {
+enum RequestError: Error {
+    typealias RawValue = String
+    
     //可以自定义更多
     case NetWrong(String)
 }
@@ -37,17 +39,18 @@ class CPHTTP {
     func rx_fetchData(type: FetchDataType) -> Observable<JSON> {
         var requestUrl = ""
         switch type {
-        case .Girl(let page):
+        case .girl(let page):
             requestUrl = (self.baseUrl + "data/福利/\(self.requestDataCount)/\(page)")
-        case .Skill(let year, let month, let day):
+        case .skill(let year, let month, let day):
             requestUrl = self.baseUrl + "day/\(year)/\(month)/\(day)"
-        case .Category(let category, let page):
+        case .category(let category, let page):
             requestUrl = self.baseUrl + "data/\(category)/\(self.requestDataCount)/\(page)"
         }
         debugPrint("requestUrl: " + requestUrl)
-        requestUrl = requestUrl.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLFragmentAllowedCharacterSet())!
+        requestUrl = requestUrl.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlFragmentAllowed)!
         return Observable.create({ (observer) -> Disposable in
-            let request = Alamofire.request(.GET, requestUrl).responseJSON(completionHandler: { (response) -> Void in
+            
+            let request = Alamofire.request(requestUrl).responseJSON(completionHandler: { (response) in
                 if let value = response.result.value {
                     debugPrint(value)
                     let json = JSON(value)
@@ -58,7 +61,7 @@ class CPHTTP {
                     observer.onError(e)
                 }
             })
-            return AnonymousDisposable{
+            return Disposables.create {
                 request.cancel()
             }
         })
