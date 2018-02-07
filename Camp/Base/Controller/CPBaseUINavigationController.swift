@@ -19,7 +19,6 @@ class CPBaseUINavigationController: UINavigationController {
         let navBar = UINavigationBar.appearance()
         navBar.barTintColor = CPColorUtil.navColor
         navBar.tintColor = UIColor.white
-        navBar.barStyle = .blackTranslucent
         navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         // Do any additional setup after loading the view.
     }

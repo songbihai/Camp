@@ -14,6 +14,7 @@ import RxSwift
 
 class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     
+    let disposeBag = DisposeBag()
     
     var categorys: [CategoryModel] = []
     
@@ -41,12 +42,16 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     
     func addAllSubviews() {
         
-        tableView = UITableView(frame: CGRect(x: 0, y: 44, width: self.view.bounds.size.width, height: self.view.bounds.size.height - 108), style: .grouped)
+        tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { [unowned self](make) in
+            make.top.equalTo(self.view).offset(navigationHeight)
+            make.left.bottom.right.equalTo(self.view)
+        }
         tableView.register(CPCategoryTableViewCell.self, forCellReuseIdentifier: identifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = CPColorUtil.navColor
         tableView.showsVerticalScrollIndicator = false
-        tableView.estimatedRowHeight = 44.0
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -54,15 +59,14 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
         }
         tableView.dataSource = self
         tableView.delegate = self
-        view.addSubview(tableView)
+        
     }
     
     func initMJRefresh(){
         let MJHeader = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToRefresh))
-        MJHeader?.lastUpdatedTimeLabel!.isHidden = true
+        MJHeader?.lastUpdatedTimeLabel?.isHidden = true
         tableView.mj_header = MJHeader
         tableView.mj_header.beginRefreshing()
-        
         tableView.mj_footer = MJRefreshBackNormalFooter(refreshingTarget: self, refreshingAction: #selector(CPMainViewController.pullToLoadMore))
     }
     
@@ -76,9 +80,6 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     }
     
     func loadCategorys(category: String, page: Int) {
-        if page == 1 {
-            categorys.removeAll()
-        }
         let _ = CPHTTP.shareInstance.rx_fetchData(type: .category(category, page))
              .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (json) in
@@ -86,6 +87,9 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
                     self.tableView.mj_header.endRefreshing()
                 }else {
                     self.tableView.mj_footer.endRefreshing()
+                }
+                if page == 1 {
+                    self.categorys.removeAll()
                 }
                 self.page += 1
                 let tempCategorys = json["results"].arrayValue.map({ (dict) -> CategoryModel in
@@ -119,7 +123,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
                 }else {
                     self.tableView.mj_footer.endRefreshing()
                 }
-        }
+        }.disposed(by: disposeBag)
     }
 
     override func didReceiveMemoryWarning() {

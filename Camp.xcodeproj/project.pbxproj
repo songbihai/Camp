@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2D18AF711D5C396000805502 /* CPAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D18AF701D5C396000805502 /* CPAboutController.swift */; };
+		2D34A1F5202ACFE000F5E9C8 /* CPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D34A1F4202ACFE000F5E9C8 /* CPConstants.swift */; };
+		2D7CDEB02029C20A00B985D9 /* CPWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7CDEAF2029C20A00B985D9 /* CPWebViewController.swift */; };
 		2D8C279E1D51967C006CF3B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D8C279D1D51967C006CF3B8 /* Assets.xcassets */; };
 		2D8C27A11D51967C006CF3B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D8C279F1D51967C006CF3B8 /* LaunchScreen.storyboard */; };
 		2D8C27AC1D51967C006CF3B8 /* CampTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C27AB1D51967C006CF3B8 /* CampTests.swift */; };
@@ -41,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		2D18AF701D5C396000805502 /* CPAboutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPAboutController.swift; sourceTree = "<group>"; };
+		2D34A1F4202ACFE000F5E9C8 /* CPConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPConstants.swift; sourceTree = "<group>"; };
+		2D7CDEAF2029C20A00B985D9 /* CPWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPWebViewController.swift; sourceTree = "<group>"; };
 		2D8C27931D51967C006CF3B8 /* Camp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Camp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D8C279D1D51967C006CF3B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D8C27A01D51967C006CF3B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 				2D8C27CD1D51A466006CF3B8 /* CPColorUtil.swift */,
 				2D8C27D31D51B91D006CF3B8 /* CPHTTP.swift */,
 				2DDF4EDA1D543AAE00901A01 /* CPThreadsafely.swift */,
+				2D34A1F4202ACFE000F5E9C8 /* CPConstants.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				2DE220141D59BDB900E51369 /* CPCategoryController.swift */,
+				2D7CDEAF2029C20A00B985D9 /* CPWebViewController.swift */,
 				2DE220191D59C42C00E51369 /* CPPagerTabStripController.swift */,
 				2D18AF701D5C396000805502 /* CPAboutController.swift */,
 			);
@@ -306,7 +312,7 @@
 			attributes = {
 				CLASSPREFIX = CP;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = songbihai;
 				TargetAttributes = {
 					2D8C27921D51967C006CF3B8 = {
@@ -460,6 +466,7 @@
 				2D8C27C81D519912006CF3B8 /* CPHUD.swift in Sources */,
 				2D8C28071D521D83006CF3B8 /* CPMainTableViewCell.swift in Sources */,
 				2DDF4EDB1D543AAE00901A01 /* CPThreadsafely.swift in Sources */,
+				2D7CDEB02029C20A00B985D9 /* CPWebViewController.swift in Sources */,
 				2D8C27D01D51B097006CF3B8 /* CPModel.swift in Sources */,
 				2DE2201A1D59C42C00E51369 /* CPPagerTabStripController.swift in Sources */,
 				2D8C27D41D51B91D006CF3B8 /* CPHTTP.swift in Sources */,
@@ -470,6 +477,7 @@
 				2D8C27CE1D51A466006CF3B8 /* CPColorUtil.swift in Sources */,
 				2D8C28021D51F12A006CF3B8 /* CPMainViewController.swift in Sources */,
 				2D8C27C31D519864006CF3B8 /* CPDateUtil.swift in Sources */,
+				2D34A1F5202ACFE000F5E9C8 /* CPConstants.swift in Sources */,
 				2D18AF711D5C396000805502 /* CPAboutController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,13 +521,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -559,13 +575,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -584,6 +608,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

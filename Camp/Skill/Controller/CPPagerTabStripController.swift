@@ -36,8 +36,14 @@ class CPPagerTabStripController: ButtonBarPagerTabStripViewController {
         navigationItem.rightBarButtonItem = rightBarBtn
         
         var newButtonBarViewFrame = buttonBarView.frame
-        newButtonBarViewFrame.origin.y += 64
+        newButtonBarViewFrame.origin.y += navigationHeight
         buttonBarView.frame = newButtonBarViewFrame
+        if #available(iOS 11.0, *) {
+            buttonBarView.contentInsetAdjustmentBehavior = .never
+            containerView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
     }
     
     @objc func toAboutmeAction(sender: UIButton) {

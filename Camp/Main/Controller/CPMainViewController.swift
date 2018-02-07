@@ -30,15 +30,18 @@ class CPMainViewController: CPBaseViewController {
     }
     
     func addAllSubViews () {
-        tableView = UITableView.init(frame: view.bounds, style: .grouped)
+        tableView = UITableView.init(frame: CGRect.zero, style: .grouped)
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { [unowned self](make) in
+            make.edges.equalTo(self.view)
+        }
         tableView.register(CPMainTableViewCell.self, forCellReuseIdentifier: identifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = CPColorUtil.mainColor
         tableView.showsVerticalScrollIndicator = false
-        tableView.estimatedRowHeight = 300.0
+        tableView.estimatedRowHeight = 0.8 * UIScreen.main.bounds.width
         tableView.dataSource = self
         tableView.delegate = self
-        view.addSubview(tableView)
         
         let toCategoryBtn = UIButton()
         toCategoryBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -135,7 +138,7 @@ class CPMainViewController: CPBaseViewController {
 
 
 
-extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
+extension CPMainViewController: UITableViewDataSource, UITableViewDelegate, SKPhotoBrowserDelegate {
     var identifier: String { return "CPMainTableViewCell" } //不能添加储存属性
     //MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,12 +185,19 @@ extension CPMainViewController: UITableViewDataSource, UITableViewDelegate {
             photo.shouldCachePhotoURLImage = true
             return photo
         }
-        let browser = SKPhotoBrowser(photos: photos)
+        let cell = tableView.cellForRow(at: indexPath) as! CPMainTableViewCell
+        let browser = SKPhotoBrowser(originImage: cell.girlImageView.image!, photos: photos, animatedFromView: cell.girlImageView)
+        browser.delegate = self
         browser.initializePageIndex(indexPath.section)
         present(browser, animated: true, completion: {})
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300.0
+        return 0.8 * UIScreen.main.bounds.width
+    }
+    
+    //MARK: - SKPhotoBrowserDelegate
+    func didShowPhotoAtIndex(_ browser: SKPhotoBrowser, index: Int) {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: .none, animated: false)
     }
 }
