@@ -10,3 +10,14 @@ import UIKit
 
 
 let navigationHeight: CGFloat = UIScreen.main.bounds.height == 812.0 ? 88 : 64;
+
+extension UIScrollView {
+    func endRefreshing() {
+        if self.mj_header.isRefreshing {
+            self.mj_header.endRefreshing()
+        }
+        if self.mj_footer.isRefreshing {
+            self.mj_footer.endRefreshing()
+        }
+    }
+}

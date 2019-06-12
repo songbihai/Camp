@@ -72,6 +72,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
     
     @objc func pullToRefresh() {
         page = 1
+        tableView.mj_footer.resetNoMoreData()
         loadCategorys(category: itemInfo.title!, page: page)
     }
     
@@ -83,11 +84,7 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
         let _ = CPHTTP.shareInstance.rx_fetchData(type: .category(category, page))
              .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (json) in
-                if page == 1 {
-                    self.tableView.mj_header.endRefreshing()
-                }else {
-                    self.tableView.mj_footer.endRefreshing()
-                }
+                self.tableView.endRefreshing()
                 if page == 1 {
                     self.categorys.removeAll()
                 }
@@ -102,27 +99,15 @@ class CPCategoryController: CPBaseViewController, IndicatorInfoProvider {
                 self.tableView.reloadData()
                 },
                        onError: { (error) in
-                        if page == 1 {
-                            self.tableView.mj_header.endRefreshing()
-                        }else {
-                            self.tableView.mj_footer.endRefreshing()
-                        }
+                        self.tableView.endRefreshing()
                         switch error as! RequestError {
                         case .NetWrong(let localizedDescription):
                             CPHUD.showText(text: localizedDescription)
                         }
                 }, onCompleted: {
-                    if page == 1 {
-                        self.tableView.mj_header.endRefreshing()
-                    }else {
-                        self.tableView.mj_footer.endRefreshing()
-                    }
+                    self.tableView.endRefreshing()
             }) {
-                if page == 1 {
-                    self.tableView.mj_header.endRefreshing()
-                }else {
-                    self.tableView.mj_footer.endRefreshing()
-                }
+                self.tableView.endRefreshing()
         }.disposed(by: disposeBag)
     }
 

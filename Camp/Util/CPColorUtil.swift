@@ -26,6 +26,6 @@ public class CPColorUtil {
 }
 
 public extension CPColorUtil {
-    public static let mainColor = CPColorUtil.RGB(red: 33, green: 47, blue: 63)
-    public static let navColor = CPColorUtil.RGB(red: 44, green: 62, blue: 80)
+    static let mainColor = CPColorUtil.RGB(red: 33, green: 47, blue: 63)
+    static let navColor = CPColorUtil.RGB(red: 44, green: 62, blue: 80)
 }

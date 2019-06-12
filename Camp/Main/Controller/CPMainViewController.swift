@@ -68,6 +68,7 @@ class CPMainViewController: CPBaseViewController {
     
     @objc func pullToRefresh() {
         page = 1
+        tableView.mj_footer.resetNoMoreData()
         loadGirls(page: page)
     }
     
@@ -79,11 +80,7 @@ class CPMainViewController: CPBaseViewController {
         let _ = CPHTTP.shareInstance.rx_fetchData(type: .girl(page))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (json) in
-                if page == 1 {
-                    self.tableView.mj_header.endRefreshing()
-                }else {
-                    self.tableView.mj_footer.endRefreshing()
-                }
+                self.tableView.endRefreshing()
                 let tempGirls = json["results"].arrayValue.map({ (dict) -> GirlModel in
                     return GirlModel(dict)
                 })
@@ -104,29 +101,17 @@ class CPMainViewController: CPBaseViewController {
                 self.page += 1
                 },
                        onError: { (error) in
-                        if page == 1 {
-                            self.tableView.mj_header.endRefreshing()
-                        }else {
-                            self.tableView.mj_footer.endRefreshing()
-                        }
+                        self.tableView.endRefreshing()
                         switch error as! RequestError {
                         case .NetWrong(let localizedDescription):
                             CPHUD.showText(text: localizedDescription)
                         }
                 },
                        onCompleted: {
-                        if page == 1 {
-                            self.tableView.mj_header.endRefreshing()
-                        }else {
-                            self.tableView.mj_footer.endRefreshing()
-                        }
+                        self.tableView.endRefreshing()
                 })
             {
-                if page == 1 {
-                    self.tableView.mj_header.endRefreshing()
-                }else {
-                    self.tableView.mj_footer.endRefreshing()
-                }
+                self.tableView.endRefreshing()
         }
     }
 

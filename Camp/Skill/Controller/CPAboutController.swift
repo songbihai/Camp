@@ -30,7 +30,7 @@ class CPAboutController: CPBaseViewController {
         }
         
         let age = UILabel()
-        age.text = "年龄：25"
+        age.text = "年龄：26"
         age.textColor = .white
         view.addSubview(age)
         
@@ -61,7 +61,7 @@ class CPAboutController: CPBaseViewController {
         
         let skill = UILabel()
         skill.numberOfLines = 0
-        skill.text = "技能：Objective-C > Swift > HTML+CSS+Javascript, 三年iOS开发"
+        skill.text = "技能：Objective-C > Swift > HTML+CSS+Javascript, 四年iOS开发"
         skill.textColor = .white
         view.addSubview(skill)
         
@@ -71,7 +71,7 @@ class CPAboutController: CPBaseViewController {
             make.right.equalTo(-20)
         }
         
-        let introduce = "「Camp」是干货集中营的非官方iOS客户端之一，每天提供一些精选的妹纸图片，一些精选的休息视频，若干精选的Android，ios，web等相关的技术干货。主页采取了突出妹纸的卡片设计，点击图片可查看大图，，右上角的『button』可进入纯干货页面，可根据分类浏览。\n\n本项目完全开源，由Songbihai完成，尝试RxSwift，试手的Demo，由于水平有限，项目中难免有所纰漏\n\n我的Github：https://github.com/Songbihai\n\n数据来源: 干货集中营 http://gank.io/api\n\n16/08/02"
+        let introduce = "「Camp」是干货集中营的非官方iOS客户端之一，每天提供一些精选的妹纸图片，一些精选的休息视频，若干精选的Android，ios，web等相关的技术干货。主页采取了突出妹纸的卡片设计，点击图片可查看大图，，右上角的『button』可进入纯干货页面，可根据分类浏览。\n\n本项目完全开源，由Songbihai完成，尝试RxSwift，试手的Demo，水平有限\n\n我的Github：https://github.com/Songbihai\n\n数据来源: 干货集中营 http://gank.io/api\n\n16/08/02"
         let introduceTextView = UITextView()
         introduceTextView.text = introduce
         introduceTextView.isEditable = false
