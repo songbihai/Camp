@@ -9,12 +9,8 @@
 import UIKit
 
 public class CPColorUtil {
-
-    public static func RGB(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
-        return CPColorUtil.RGBA(red: red, green: green, blue: blue, alpha: 1.0)
-    }
     
-    public static func RGBA(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
+    public static func RGBA(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1.0) -> UIColor {
         var r = red
         var g = green
         var b = blue
@@ -26,6 +22,6 @@ public class CPColorUtil {
 }
 
 public extension CPColorUtil {
-    static let mainColor = CPColorUtil.RGB(red: 33, green: 47, blue: 63)
-    static let navColor = CPColorUtil.RGB(red: 44, green: 62, blue: 80)
+    static let mainColor = CPColorUtil.RGBA(red: 33, green: 47, blue: 63)
+    static let navColor = CPColorUtil.RGBA(red: 44, green: 62, blue: 80)
 }
